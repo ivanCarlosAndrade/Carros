@@ -19,10 +19,10 @@ class usuarioController extends Controller
 
     $novo = new usuarios;
 
-    $novo->email = 'carlos@gmail.com';
-    $novo->nome = 'carlos Gonçalves';
-    $novo->password = Hash::make('12345678');
-    $novo->contacto = '9759796';
+    $novo->email = $request->email;
+    $novo->nome = $request->nome;
+    $novo->password = Hash::make($request->pass);
+    $novo->contacto = $request->contacto;
     $novo->save();
    }
 

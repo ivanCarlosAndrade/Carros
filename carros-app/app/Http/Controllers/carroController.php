@@ -8,7 +8,7 @@ class carroController extends Controller
 {
     public function index (){
         $carros = Carros::all();
-        return view('welcome',['carros' => $carros]);
+        return ['carros'=>$carros];
 
     }
 
@@ -17,11 +17,12 @@ class carroController extends Controller
       $carros->marca = $request->marca;  
       $carros->ilha = $request->ilha;
       $carros->Descricao = $request->description; 
+      $carros->valor = $request->valor;
        
       $carros->kilometragem = $request->kilometragem;
       
      
-
+      
       if($request->File('image') && $request->file('image')->isValid()) {
 
         $requestImage = $request->image;
@@ -47,5 +48,20 @@ class carroController extends Controller
 
       return view('detalhe',['carros'=>$carro]);
 
+    }
+
+    public function update(Request $request, $id ){
+      
+      $carros = Carros::find($id);
+      
+      $carros->save();
+      
+    }
+    public function delete( $id ){
+      
+      $carros = Carros::find($id);
+      
+      $carros->delete();
+      
     }
 }

@@ -9,4 +9,10 @@ class usuarios extends Model
 {
     protected $primaryKey ='id_usuario';
     protected $table = 'usuario';
+
+    public function carros(){
+        return $this->hasMany('App\carros', 'id_cliente');
+    }
 }
+
+

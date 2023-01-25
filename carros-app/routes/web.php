@@ -18,9 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/',[usuarioController::class, 'index']);
-Route::get('/inserir',[usuarioController::class, 'inserir_usuario']);
-Route::get('/login',[usuarioController::class, 'login']);
-Route::get('/logout',[usuarioController::class, 'logout']);
+
 Route::middleware('verificarSessao')->group(function(){
 
     Route::get('/dashboard',function(){

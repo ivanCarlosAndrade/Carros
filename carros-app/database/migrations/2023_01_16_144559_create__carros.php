@@ -22,9 +22,9 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('carro', function (Blueprint $table) {
+        Schema::create('carros', function (Blueprint $table) {
             $table->increments('id_carro');
-            $table->unsignedInteger('id_usuario');
+           // $table->unsignedInteger('id_usuario');
             $table->string('marca');
             $table->string('ilha');
             $table->string('imagem');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->text('descricao');
             $table->timestamps();
 
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->ondelete('cascade');
+            //$table->foreign('id_usuario')->nullable()->references('id_usuario')->on('usuario')->ondelete('cascade');
         });
     }
 
