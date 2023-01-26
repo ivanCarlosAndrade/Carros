@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carros_front/ui/detalhe.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,58 +11,19 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class carros {
-  int ?id_carro;
-  String? marca;
-  String? ilha;
-  String? imagem;
-  int? kilometragem;
-  int? valor;
-  String? descricao;
-
-  carros({
-    this.id_carro,
-    this.marca,
-    this.ilha,
-    this.imagem,
-    this.kilometragem,
-    this.valor,
-    this.descricao,
-  });
-
-  factory carros.fromJson(Map<String, dynamic> json) {
-    return carros(
-      id_carro: json["id_carro"],
-      marca: json["marca"],
-      ilha: json["ilha"],
-      imagem: json["imagem"],
-      kilometragem: json["kilometragem"],
-      valor: json["valor"],
-      descricao: json["descricao"],
-    );
-  }
-}
-
-
 class _HomePageState extends State<HomePage> {
   String _url = 'http://127.0.0.1:8000/api/index';
-  Future<Map> _getfetch() async {
+  Future<Map>? _getfetch() async {
     http.Response response;
     response = await http.get(Uri.parse(_url));
     return json.decode(response.body);
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-
-    _getfetch().then((map) {
-      print(map["carros"][2]["marca"]);
-    });
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      drawer: Drawer(),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.network(
@@ -82,7 +44,13 @@ class _HomePageState extends State<HomePage> {
             child: FutureBuilder(
           future: _getfetch(),
           builder: (context, snapshot) {
-            return _createCarTable(context, snapshot);
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+              case ConnectionState.none:
+                return Container();
+              default:
+                return _createCarTable(context, snapshot);
+            }
           },
         ))
       ]),
@@ -97,7 +65,16 @@ class _HomePageState extends State<HomePage> {
       itemCount: 4,
       itemBuilder: (context, index) {
         return GestureDetector(
-          child: Text(snapshot.data["carros"][index]["marca"])
+          child: Image.network(
+            "http://127.0.0.1:8000/api/image/" +
+                snapshot.data["carros"][index]["imagem"],
+                fit: BoxFit.cover,
+                
+          ),
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Detalhe(snapshot.data["carros"][index])));
+          },
         );
       },
     );

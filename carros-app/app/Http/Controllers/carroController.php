@@ -64,4 +64,8 @@ class carroController extends Controller
       $carros->delete();
       
     }
+    public function image($image){
+
+      return response()->file(public_path("/images/carros/$image"));
+    }
 }

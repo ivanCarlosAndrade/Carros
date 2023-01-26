@@ -17,3 +17,4 @@ Route::post ('/delete',[carroController::class, 'delete']);
 Route::post('/inserir',[usuarioController::class, 'inserir_usuario']);
 Route::post('/login',[usuarioController::class, 'login']);
 Route::post('/logout',[usuarioController::class, 'logout']);
+Route::get('/image/{image}',[carroController::class, 'image']);
